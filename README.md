@@ -8,8 +8,17 @@
 
 ### Screenshots
 
-
 <img src="screenshots/guide1.png" width="24%" />
 <img src="screenshots/guide2.png" width="24%" />
 <img src="screenshots/guide3.png" width="24%" />
 <img src="screenshots/guide4.png" width="24%" />
+
+
+###关于我
+
+* **QQ:** 907167515
+* **微信:** faith-hb
+* **Weibo:** [http://weibo.com/234351856/home?wvr=5](http://weibo.com/234351856/home?wvr=5)
+* **Email:** [hongbinghp@163.com](mailto:hongbinghp@163.com) | [hongbinghp@gmail.com](mailto:hongbinghp@gmail.com)
+* **Github:** [https://github.com/faith-hb](https://github.com/faith-hb)
+* **Blog:** [http://blog.csdn.net/hongbingfans](http://blog.csdn.net/hongbingfans)
