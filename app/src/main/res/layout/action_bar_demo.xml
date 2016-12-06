@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 <view xmlns:android="http://schemas.android.com/apk/res/android"
-    class="com.examples.youtubeapidemo.ActionBarDemoActivity$ActionBarPaddedFrameLayout"
+    class="com.faith.ctv.ytb.ActionBarDemoActivity$ActionBarPaddedFrameLayout"
     android:id="@+id/view_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
