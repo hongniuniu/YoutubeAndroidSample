@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright 2012 Google Inc. All Rights Reserved.
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,39 +19,32 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-  <com.google.android.youtube.player.YouTubePlayerView
-      android:id="@+id/player"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"/>
+    <com.google.android.youtube.player.YouTubePlayerView
+        android:id="@+id/player"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-  <LinearLayout
-      android:id="@+id/other_views"
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:layout_weight="1"
-      android:padding="5dp"
-      android:orientation="vertical">
-
-    <TextView
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@android:style/TextAppearance.Small"
-        android:text="@string/fullscreen_tutorial"/>
+        android:scrollbars="vertical">
 
-    <CheckBox
-        android:id="@+id/landscape_fullscreen_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/landscape_fullscreen"/>
+        <LinearLayout
+            android:id="@+id/other_views"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="5dp">
 
-    <Button
-        android:id="@+id/fullscreen_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/enter_fullscreen"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fullscreen_tutorial"
+                android:textAppearance="@android:style/TextAppearance.Small" />
 
-  </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

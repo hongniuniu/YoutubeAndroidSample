@@ -81,6 +81,16 @@
         </activity>
 
         <activity
+            android:label="@string/video_detail_name"
+            android:name=".VideoDetailActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/BlackNoTitleBarTheme">
+            <meta-data android:name="@string/minVersion" android:value="8"/>
+            <meta-data android:name="@string/isLaunchableActivity" android:value="true"/>
+        </activity>
+
+        <activity
             android:label="@string/action_bar_demo_name"
             android:name=".ActionBarDemoActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"

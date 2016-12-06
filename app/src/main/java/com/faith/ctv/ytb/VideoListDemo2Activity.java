@@ -597,9 +597,10 @@ public final class VideoListDemo2Activity extends Activity implements OnFullscre
 
     @Override
     public void onLoaded(String s) { // s为视频ID
-      Log.d("播放器","初始化onLoaded-->s = " + s);
-//      setVideoId(s);
-      mPlayer.play();
+      Log.d("播放器", "初始化onLoaded-->s = " + s);
+      if (null != mPlayer && !mPlayer.isPlaying()) {
+        mPlayer.play();
+      }
     }
 
     @Override
