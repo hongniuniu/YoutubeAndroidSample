@@ -14,27 +14,52 @@
   limitations under the License.
 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="230dp"
-    android:layout_gravity="center"
     android:background="?android:attr/activatedBackgroundIndicator"
-    android:descendantFocusability="blocksDescendants"
-    android:gravity="center">
+    android:descendantFocusability="blocksDescendants">
 
-    <LinearLayout
-        android:id="@+id/id_thumbnailLayout"
+
+    <com.google.android.youtube.player.YouTubeThumbnailView
+        android:id="@+id/thumbnail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.google.android.youtube.player.YouTubeThumbnailView
-            android:id="@+id/thumbnail"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/no_thumbnail" />
-
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/no_thumbnail" />
 
 
+    <TextView
+        android:id="@+id/id_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:paddingLeft="6dp"
+        android:paddingTop="6dp"
+        android:text="对台工作红线已确立，蔡英文看着办"
+        android:textColor="#000"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@mipmap/icon_play_big" />
+
+    <TextView
+        android:id="@+id/id_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="6dp"
+        android:layout_marginRight="6dp"
+        android:background="@drawable/bg_list_media_num"
+        android:gravity="center"
+        android:paddingBottom="2dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="2dp"
+        android:text="02:16"
+        android:textColor="#fff" />
 </FrameLayout>

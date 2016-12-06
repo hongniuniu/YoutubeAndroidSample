@@ -34,9 +34,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewPropertyAnimator;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -55,6 +55,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * A sample Activity showing how to manage multiple YouTubeThumbnailViews in an adapter for display
@@ -66,6 +67,7 @@ import java.util.Map;
 @TargetApi(13)
 public final class VideoListDemo2Activity extends Activity implements OnFullscreenListener {
 
+  private static final String TAG = VideoListDemo2Activity.class.getSimpleName();
   /** The duration of the animation sliding up the video in portrait. */
   private static final int ANIMATION_DURATION_MILLIS = 300;
   /** The padding between the video list and the video in landscape orientation. */
@@ -201,7 +203,7 @@ public final class VideoListDemo2Activity extends Activity implements OnFullscre
   /**
    * A fragment that shows a static list of videos.
    */
-  public static final class VideoListFragment extends ListFragment {
+  public static final class VideoListFragment extends ListFragment implements AbsListView.OnScrollListener {
     private static List<VideoEntry> mList = new ArrayList<>();
     private void addTestData(){
       mList.add(new VideoEntry("YouTube Collection", "Y_UmWdcTrrc"));
@@ -227,13 +229,57 @@ public final class VideoListDemo2Activity extends Activity implements OnFullscre
       super.onActivityCreated(savedInstanceState);
 
       getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+      getListView().setOnScrollListener(this);
       setListAdapter(adapter);
     }
 
     @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+        switch (scrollState){
+          case SCROLL_STATE_IDLE: // 滑动停止
+            Log.d(TAG, "滑动停止-->SCROLL_STATE_IDLE");
+            if (null != mPlayer && (mPlayer.isPlaying() || !mCurrItemIsVis)) {
+              long minutes = TimeUnit.MILLISECONDS.toMinutes(mPlayer.getDurationMillis());
+              long second = TimeUnit.MILLISECONDS.toSeconds(mPlayer.getDurationMillis()) - minutes * 60;
+
+              Log.d(TAG, "滑动停止-->SCROLL_STATE_IDLE-->当前播放时间 ＝ " + mPlayer.getCurrentTimeMillis() +
+                      "-->总时间 ＝ " + mPlayer.getDurationMillis() +
+                      "-->mPlayer.isPlaying() = " + mPlayer.isPlaying() +
+                      "-->分钟 ＝ " + minutes +
+                      "-->秒 ＝ " + second);
+              mPlayer.release();
+              mPlayer = null;
+            }
+            break;
+          case SCROLL_STATE_TOUCH_SCROLL: // 正在滚动
+            Log.d(TAG,"正在滚动-->SCROLL_STATE_TOUCH_SCROLL");
+            break;
+          case SCROLL_STATE_FLING: // 手指快速滑动时，在离开listview的惯性滑动
+            Log.d(TAG,"快速滑动-->SCROLL_STATE_FLING");
+            break;
+        }
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+
+      Log.d(TAG,"滚动状态-->firstVisibleItem = " + firstVisibleItem + "-->visibleItemCount = " + visibleItemCount + "-->totalItemCount = " + totalItemCount);
+
+      mCurrItemIsVis = false;
+      if (firstVisibleItem <= mCurrItemPos && mCurrItemPos <= (firstVisibleItem + visibleItemCount)) {
+        mCurrItemIsVis = true;
+      }
+      Log.d(TAG, "滚动状态-->click item是否可 ＝ " + mCurrItemIsVis);
+
+
+    }
+
+    private int mCurrItemPos; // 当前点击的行数
+    private boolean mCurrItemIsVis; // 当前点击的item滑动后是否可见
+
+    @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-      String videoId = mList.get(position).videoId;
-//
 //      VideoFragment videoFragment =
 //          (VideoFragment) getFragmentManager().findFragmentById(R.id.video_fragment_container);
 //      videoFragment.setVideoId(videoId);
@@ -252,6 +298,8 @@ public final class VideoListDemo2Activity extends Activity implements OnFullscre
 //        videoBox.animate().translationY(0).setDuration(ANIMATION_DURATION_MILLIS);
 //      }
 
+      mCurrItemPos = position;
+
       for (VideoEntry entry : mList){
         entry.setPlay(false);
       }
@@ -265,9 +313,14 @@ public final class VideoListDemo2Activity extends Activity implements OnFullscre
     public void onDestroyView() {
       super.onDestroyView();
 
-      Log.d("初始化","初始化VideoListFragment的onDestroyView");
+      Log.d("初始化", "初始化VideoListFragment的onDestroyView");
       mList.clear();
       adapter.releaseLoaders();
+      if (null != mPlayer) {
+        mPlayer.release();
+        mPlayer = null;
+      }
+
     }
   }
 
@@ -336,7 +389,6 @@ public final class VideoListDemo2Activity extends Activity implements OnFullscre
         // 1) The view has not yet been created - we need to initialize the YouTubeThumbnailView.
         convertView = inflater.inflate(R.layout.video_list_item2, parent, false);
         holder = new ViewHolder();
-        holder.thumbnailLayout = (LinearLayout) convertView.findViewById(R.id.id_thumbnailLayout);
         holder.thumbnail = (YouTubeThumbnailView) convertView.findViewById(R.id.thumbnail);
         holder.thumbnail.setTag(entry.videoId);
         holder.thumbnail.initialize(DeveloperKey.DEVELOPER_KEY, thumbnailListener);
@@ -398,7 +450,6 @@ public final class VideoListDemo2Activity extends Activity implements OnFullscre
     }
 
     static class ViewHolder {
-      LinearLayout thumbnailLayout;
       YouTubeThumbnailView thumbnail;
     }
 
@@ -434,10 +485,11 @@ public final class VideoListDemo2Activity extends Activity implements OnFullscre
 
   }
 
+  private static YouTubePlayer mPlayer;
   public static final class VideoFragment extends YouTubePlayerFragment
       implements OnInitializedListener,YouTubePlayer.PlayerStateChangeListener,YouTubePlayer.PlaybackEventListener,YouTubePlayer.PlaylistEventListener {
 
-    private YouTubePlayer player;
+
     private String videoId;
 
     public static VideoFragment newInstance(String videoId) {
@@ -475,32 +527,32 @@ public final class VideoListDemo2Activity extends Activity implements OnFullscre
     @Override
     public void onDestroy() {
       Log.d("VideoListDemo2Activity","YouTubePlayerFragment-->onDestroy...");
-      if (player != null) {
-        player.release();
+      if (mPlayer != null) {
+        mPlayer.release();
       }
       super.onDestroy();
     }
 
-    public void setVideoId(String videoId) {
-      if (videoId != null && !videoId.equals(this.videoId)) {
-        this.videoId = videoId;
-        if (player != null) {
-          Log.d("初始化","播放器碎片setVideoId开始播放");
-          player.cueVideo(videoId);
-        }
-      }
-    }
-
-    public void pause() {
-      if (player != null) {
-        player.pause();
-      }
-    }
+//    public void setVideoId(String videoId) {
+//      if (videoId != null && !videoId.equals(this.videoId)) {
+//        this.videoId = videoId;
+//        if (player != null) {
+//          Log.d("初始化","播放器碎片setVideoId开始播放");
+//          player.cueVideo(videoId);
+//        }
+//      }
+//    }
+//
+//    public void pause() {
+//      if (player != null) {
+//        player.pause();
+//      }
+//    }
 
     @Override
     public void onInitializationSuccess(Provider provider, YouTubePlayer player, boolean restored) {
       Log.d("初始化","播放器碎片onInitializationSuccess");
-      this.player = player;
+      mPlayer = player;
       player.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CUSTOM_LAYOUT);
       player.setOnFullscreenListener((VideoListDemo2Activity) getActivity());
       player.setPlayerStateChangeListener(this);
@@ -524,7 +576,7 @@ public final class VideoListDemo2Activity extends Activity implements OnFullscre
     @Override
     public void onInitializationFailure(Provider provider, YouTubeInitializationResult result) {
       Log.d("初始化","播放器onInitializationFailure");
-      this.player = null;
+      mPlayer = null;
     }
 
     @Override
@@ -536,7 +588,7 @@ public final class VideoListDemo2Activity extends Activity implements OnFullscre
     public void onLoaded(String s) { // s为视频ID
       Log.d("播放器","初始化onLoaded-->s = " + s);
 //      setVideoId(s);
-      player.play();
+      mPlayer.play();
     }
 
     @Override
@@ -561,27 +613,27 @@ public final class VideoListDemo2Activity extends Activity implements OnFullscre
 
     @Override
     public void onPlaying() {
-
+      Log.d("VideoListDemo2Activity","PlaybackEventListener<onPlaying>");
     }
 
     @Override
     public void onPaused() {
-      Log.d("VideoListDemo2Activity","PlaybackEventListener<onPaused>-->getCurrentTimeMillis-->" + player.getCurrentTimeMillis() + "-->getDurationMillis-->" + player.getDurationMillis());
+      Log.d("VideoListDemo2Activity","PlaybackEventListener<onPaused>-->getCurrentTimeMillis-->" + mPlayer.getCurrentTimeMillis() + "-->getDurationMillis-->" + mPlayer.getDurationMillis());
     }
 
     @Override
     public void onStopped() {
-      Log.d("VideoListDemo2Activity","PlaybackEventListener<onStopped>-->getCurrentTimeMillis-->" + player.getCurrentTimeMillis() + "-->getDurationMillis-->" + player.getDurationMillis());
+      Log.d("VideoListDemo2Activity","PlaybackEventListener<onStopped>-->getCurrentTimeMillis-->" + mPlayer.getCurrentTimeMillis() + "-->getDurationMillis-->" + mPlayer.getDurationMillis());
     }
 
     @Override
     public void onBuffering(boolean b) {
-
+      Log.d("VideoListDemo2Activity","PlaybackEventListener<onBuffering>");
     }
 
     @Override
     public void onSeekTo(int i) {
-
+      Log.d("VideoListDemo2Activity","PlaybackEventListener<onSeekTo>");
     }
 
     @Override
