@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.faith.ctv.ytb">
+
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="16"/>
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application android:label="@string/youtube_api_demo">
+
+        <activity
+            android:label="@string/youtube_api_demo"
+            android:name=".YouTubeAPIDemoActivity">
+            <intent-filter >
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data android:name="@string/isLaunchableActivity" android:value="false"/>
+        </activity>
+
+        <activity
+            android:label="@string/videowall_demo_name"
+            android:name=".VideoWallDemoActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/BlackNoBarsTheme"
+            android:configChanges="orientation|screenSize|keyboardHidden">
+            <meta-data android:name="@string/minVersion" android:value="11"/>
+            <meta-data android:name="@string/isLaunchableActivity" android:value="true"/>
+        </activity>
+
+        <activity
+            android:label="@string/videolist_demo_name"
+            android:name=".VideoListDemoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize">
+            <meta-data android:name="@string/minVersion" android:value="13"/>
+            <meta-data android:name="@string/isLaunchableActivity" android:value="true"/>
+        </activity>
+
+        <activity
+            android:label="@string/videolist_demo_name_2"
+            android:name=".VideoListDemo2Activity"
+            android:configChanges="orientation|keyboardHidden|screenSize">
+            <meta-data android:name="@string/minVersion" android:value="13"/>
+            <meta-data android:name="@string/isLaunchableActivity" android:value="true"/>
+        </activity>
+
+        <activity
+            android:label="@string/playerview_demo_name"
+            android:name=".PlayerViewDemoActivity"
+            android:screenOrientation="nosensor"
+            android:configChanges="orientation|screenSize|keyboardHidden">
+            <meta-data android:name="@string/minVersion" android:value="8"/>
+            <meta-data android:name="@string/isLaunchableActivity" android:value="true"/>
+        </activity>
+
+        <activity
+            android:label="@string/fragment_demo_name"
+            android:name=".FragmentDemoActivity"
+            android:screenOrientation="nosensor"
+            android:configChanges="orientation|screenSize|keyboardHidden">
+            <meta-data android:name="@string/minVersion" android:value="11"/>
+            <meta-data android:name="@string/isLaunchableActivity" android:value="true"/>
+        </activity>
+
+        <activity
+            android:label="@string/player_controls_demo_name"
+            android:name=".PlayerControlsDemoActivity"
+            android:windowSoftInputMode="stateHidden">
+            <meta-data android:name="@string/minVersion" android:value="8"/>
+            <meta-data android:name="@string/isLaunchableActivity" android:value="true"/>
+        </activity>
+
+        <activity
+            android:label="@string/fullscreen_demo_name"
+            android:name=".FullscreenDemoActivity"
+            android:screenOrientation="sensor"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/BlackNoTitleBarTheme">
+            <meta-data android:name="@string/minVersion" android:value="8"/>
+            <meta-data android:name="@string/isLaunchableActivity" android:value="true"/>
+        </activity>
+
+        <activity
+            android:label="@string/action_bar_demo_name"
+            android:name=".ActionBarDemoActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/OverlayActionBarTheme"
+            android:screenOrientation="sensorLandscape">
+            <meta-data android:name="@string/minVersion" android:value="11"/>
+            <meta-data android:name="@string/isLaunchableActivity" android:value="true"/>
+        </activity>
+
+        <activity
+            android:label="@string/standalone_player_demo_name"
+            android:name=".StandalonePlayerDemoActivity">
+            <meta-data android:name="@string/minVersion" android:value="8"/>
+            <meta-data android:name="@string/isLaunchableActivity" android:value="true"/>
+        </activity>
+
+        <activity
+            android:label="@string/intents_demo_name"
+            android:name=".IntentsDemoActivity">
+            <meta-data android:name="@string/minVersion" android:value="8"/>
+            <meta-data android:name="@string/isLaunchableActivity" android:value="true"/>
+        </activity>
+
+    </application>
+
+</manifest>
