@@ -38,6 +38,7 @@ import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeApiServiceUtil;
@@ -206,13 +207,13 @@ public final class VideoListDemo2Activity extends Activity implements OnFullscre
   public static final class VideoListFragment extends ListFragment implements AbsListView.OnScrollListener {
     private static List<VideoEntry> mList = new ArrayList<>();
     private void addTestData(){
-      mList.add(new VideoEntry("YouTube Collection", "Y_UmWdcTrrc"));
-      mList.add(new VideoEntry("GMail Tap", "1KhZKNZO8mQ"));
-      mList.add(new VideoEntry("Chrome Multitask", "UiLSiqyDf4Y"));
-      mList.add(new VideoEntry("Google Fiber", "re0VRK6ouwI"));
-      mList.add(new VideoEntry("Autocompleter", "blB_X38YSxQ"));
-      mList.add(new VideoEntry("GMail Motion", "Bu927_ul_X0"));
-      mList.add(new VideoEntry("Translate for Animals", "3I24bSteJpw"));
+      mList.add(new VideoEntry("YouTube Collection", "Y_UmWdcTrrc",136 * 1000));
+      mList.add(new VideoEntry("GMail Tap", "1KhZKNZO8mQ",136 * 1000));
+      mList.add(new VideoEntry("Chrome Multitask", "UiLSiqyDf4Y",96 * 1000));
+      mList.add(new VideoEntry("Google Fiber", "re0VRK6ouwI",124 * 1000));
+      mList.add(new VideoEntry("Autocompleter", "blB_X38YSxQ",156 * 1000));
+      mList.add(new VideoEntry("GMail Motion", "Bu927_ul_X0",112 * 1000));
+      mList.add(new VideoEntry("Translate for Animals", "3I24bSteJpw",102 * 1000));
     }
 
     private PageAdapter adapter;
@@ -238,7 +239,7 @@ public final class VideoListDemo2Activity extends Activity implements OnFullscre
         switch (scrollState){
           case SCROLL_STATE_IDLE: // 滑动停止
             Log.d(TAG, "滑动停止-->SCROLL_STATE_IDLE");
-            if (null != mPlayer && (mPlayer.isPlaying() || !mCurrItemIsVis)) {
+            if (null != mPlayer && !mCurrItemIsVis) {
               long minutes = TimeUnit.MILLISECONDS.toMinutes(mPlayer.getDurationMillis());
               long second = TimeUnit.MILLISECONDS.toSeconds(mPlayer.getDurationMillis()) - minutes * 60;
 
@@ -266,9 +267,10 @@ public final class VideoListDemo2Activity extends Activity implements OnFullscre
 
       Log.d(TAG,"滚动状态-->firstVisibleItem = " + firstVisibleItem + "-->visibleItemCount = " + visibleItemCount + "-->totalItemCount = " + totalItemCount);
 
-      mCurrItemIsVis = false;
       if (firstVisibleItem <= mCurrItemPos && mCurrItemPos <= (firstVisibleItem + visibleItemCount)) {
         mCurrItemIsVis = true;
+      }else{
+        mCurrItemIsVis = false;
       }
       Log.d(TAG, "滚动状态-->click item是否可 ＝ " + mCurrItemIsVis);
 
@@ -389,6 +391,8 @@ public final class VideoListDemo2Activity extends Activity implements OnFullscre
         // 1) The view has not yet been created - we need to initialize the YouTubeThumbnailView.
         convertView = inflater.inflate(R.layout.video_list_item2, parent, false);
         holder = new ViewHolder();
+        holder.titleTv = (TextView) convertView.findViewById(R.id.id_title);
+        holder.timeTv = (TextView) convertView.findViewById(R.id.id_time);
         holder.thumbnail = (YouTubeThumbnailView) convertView.findViewById(R.id.thumbnail);
         holder.thumbnail.setTag(entry.videoId);
         holder.thumbnail.initialize(DeveloperKey.DEVELOPER_KEY, thumbnailListener);
@@ -409,6 +413,11 @@ public final class VideoListDemo2Activity extends Activity implements OnFullscre
           loader.setVideo(entry.videoId);
         }
       }
+
+      holder.titleTv.setText(entry.getText());
+      long minutes = TimeUnit.MILLISECONDS.toMinutes(entry.getTime());
+      long second = TimeUnit.MILLISECONDS.toSeconds(entry.getTime()) - minutes * 60;
+      holder.timeTv.setText((minutes < 10 ? "0" + minutes : minutes) + ":" + (second < 10 ? "0" + second : second ));
 
       ViewGroup vp = (ViewGroup) convertView;
       View playView = vp.findViewById(R.id.player_container);
@@ -451,6 +460,8 @@ public final class VideoListDemo2Activity extends Activity implements OnFullscre
 
     static class ViewHolder {
       YouTubeThumbnailView thumbnail;
+      TextView titleTv;
+      TextView timeTv;
     }
 
     private final class ThumbnailListener implements
@@ -656,10 +667,12 @@ public final class VideoListDemo2Activity extends Activity implements OnFullscre
     private final String text;
     private final String videoId;
     private boolean isPlay;
+    private long time; // 视频时长
 
-    public VideoEntry(String text, String videoId) {
+    public VideoEntry(String text, String videoId,long time) {
       this.text = text;
       this.videoId = videoId;
+      this.time = time;
       this.isPlay = false;
     }
 
@@ -677,6 +690,14 @@ public final class VideoListDemo2Activity extends Activity implements OnFullscre
 
     public void setPlay(boolean play) {
       isPlay = play;
+    }
+
+    public long getTime() {
+      return time;
+    }
+
+    public void setTime(long time) {
+      this.time = time;
     }
   }
 
