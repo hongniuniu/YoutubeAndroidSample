@@ -8,10 +8,10 @@
 
 ### Screenshots
 
-<img src="screenshots/guide1.png" width="24%" />
-<img src="screenshots/guide2.png" width="24%" />
-<img src="screenshots/guide3.png" width="24%" />
-<img src="screenshots/guide4.png" width="24%" />
+<img src="screenshots/guide1.png" width="24.2%" />
+<img src="screenshots/guide2.png" width="24.2%" />
+<img src="screenshots/guide3.png" width="24.2%" />
+<img src="screenshots/guide4.png" width="24.2%" />
 
 
 ###关于我
