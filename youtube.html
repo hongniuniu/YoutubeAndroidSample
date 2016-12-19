@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>WaNews</title>
+</head>
+<body>
+<!--< iframe >（视频播放器）将取代这<DIV>标签.-->
+<div id="player"></div>
+<script src="js/jquery-2.1.3.min.js?v=20160308"></script>
+<script>
+            //这个代码加载iFrame播放器代码异步API
+            var tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            var firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+            //这个函数创建一个< iframe >（和YouTube播放器）
+            var player;
+            function onYouTubeIframeAPIReady() {
+                player = new YT.Player('player', {
+                    height: '360',
+                    width: '640',
+                    videoId: 'M7lc1UVf-VE',
+                    playerVars: {
+                        'autoplay': 1,
+                        'controls': 1,
+                        'playsinline':1,
+                        'fs':'1'
+                    },
+                    events: {
+                        'onReady': onPlayerReady,
+                        'onStateChange': onPlayerStateChange,
+                        'onError':onPlayerError
+                    }
+                });
+                player.setSize(window.innerWidth, window.innerHeight);
+            }
+            //当视频播放器准备好了API调用此函数。
+            function onPlayerReady(event) {
+                event.target.playVideo();
+                console.log('开始');
+                //event.target.seekTo('12',true);
+                window.location.href = 'wabridge://onPlayerReady?data=' + event.data;
+            }
+            //当播放器的状态改变时，这个函数调用这个函数
+            var done = false;
+            function onPlayerStateChange(event) {
+                window.location.href = 'wabridge://onPlayerStateChange?data=' + event.data;
+                var time=event.target.getCurrentTime();
+            }
+            //此事件在播放器出错时触发。
+            function onPlayerError(event) {
+                console.log('播放失败');
+                window.location.href = 'wabridge://onPlayerError?data=' + event.data;
+            }
+</script>
+</body>
+</html>
