@@ -16,19 +16,20 @@
 
 package com.faith.ctv.ytb;
 
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubeStandalonePlayer;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubeStandalonePlayer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -107,16 +108,22 @@ public class StandalonePlayerDemoActivity extends Activity implements View.OnCli
   }
 
   @Override
+  protected void onDestroy() {
+    super.onDestroy();
+  }
+
+  @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
+    Log.d("player", resultCode + "-->返回码");
     if (requestCode == REQ_START_STANDALONE_PLAYER && resultCode != RESULT_OK) {
       YouTubeInitializationResult errorReason =
-          YouTubeStandalonePlayer.getReturnedInitializationResult(data);
+              YouTubeStandalonePlayer.getReturnedInitializationResult(data);
       if (errorReason.isUserRecoverableError()) {
         errorReason.getErrorDialog(this, 0).show();
       } else {
         String errorMessage =
-            String.format(getString(R.string.error_player), errorReason.toString());
+                String.format(getString(R.string.error_player), errorReason.toString());
         Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
       }
     }
