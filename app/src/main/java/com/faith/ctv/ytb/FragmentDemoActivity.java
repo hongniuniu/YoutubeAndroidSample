@@ -16,11 +16,12 @@
 
 package com.faith.ctv.ytb;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;
-
-import android.os.Bundle;
 
 /**
  * A simple YouTube Android API demo application which shows how to create a simple application that
@@ -32,22 +33,30 @@ import android.os.Bundle;
  */
 public class FragmentDemoActivity extends YouTubeFailureRecoveryActivity {
 
+  YouTubePlayerFragment youTubePlayerFragment;
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     setContentView(R.layout.fragments_demo);
 
-    YouTubePlayerFragment youTubePlayerFragment =
-        (YouTubePlayerFragment) getFragmentManager().findFragmentById(R.id.youtube_fragment);
+    youTubePlayerFragment =
+            (YouTubePlayerFragment) getFragmentManager().findFragmentById(R.id.youtube_fragment);
     youTubePlayerFragment.initialize(DeveloperKey.DEVELOPER_KEY, this);
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
   }
 
   @Override
   public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player,
       boolean wasRestored) {
     if (!wasRestored) {
-      player.cueVideo("nCgQDjiotG0");
+//      player.cueVideo("nCgQDjiotG0");
+      player.cueVideo("34WF8F2VoiI");
     }
   }
 
@@ -56,4 +65,9 @@ public class FragmentDemoActivity extends YouTubeFailureRecoveryActivity {
     return (YouTubePlayerFragment) getFragmentManager().findFragmentById(R.id.youtube_fragment);
   }
 
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    youTubePlayerFragment.onResume();
+  }
 }

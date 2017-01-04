@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright 2012 Google Inc. All Rights Reserved.
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,18 +18,24 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-  <TextView
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:layout_weight="1"
-      android:textAppearance="@android:style/TextAppearance.Small"
-      android:gravity="center"
-      android:text="@string/playerfragment_text"/>
+    <Button
+        android:id="@+id/id_tz"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="跳转" />
 
-  <fragment
-      android:name="com.google.android.youtube.player.YouTubePlayerFragment"
-      android:id="@+id/youtube_fragment"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/playerfragment_text"
+        android:textAppearance="@android:style/TextAppearance.Small" />
+
+    <fragment
+        android:id="@+id/youtube_fragment"
+        android:name="com.google.android.youtube.player.YouTubePlayerFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

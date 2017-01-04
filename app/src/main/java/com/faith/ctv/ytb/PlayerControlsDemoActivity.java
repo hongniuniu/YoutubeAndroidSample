@@ -16,14 +16,6 @@
 
 package com.faith.ctv.ytb;
 
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayer.ErrorReason;
-import com.google.android.youtube.player.YouTubePlayer.PlaybackEventListener;
-import com.google.android.youtube.player.YouTubePlayer.PlayerStateChangeListener;
-import com.google.android.youtube.player.YouTubePlayer.PlayerStyle;
-import com.google.android.youtube.player.YouTubePlayer.PlaylistEventListener;
-import com.google.android.youtube.player.YouTubePlayerView;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -38,6 +30,14 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayer.ErrorReason;
+import com.google.android.youtube.player.YouTubePlayer.PlaybackEventListener;
+import com.google.android.youtube.player.YouTubePlayer.PlayerStateChangeListener;
+import com.google.android.youtube.player.YouTubePlayer.PlayerStyle;
+import com.google.android.youtube.player.YouTubePlayer.PlaylistEventListener;
+import com.google.android.youtube.player.YouTubePlayerView;
 
 /**
  * A simple YouTube Android API demo application demonstrating the use of {@link YouTubePlayer}

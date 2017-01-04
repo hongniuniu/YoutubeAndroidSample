@@ -16,25 +16,30 @@
 
 package com.faith.ctv.ytb;
 
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerFragment;
-
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerFragment;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
 /**
  * A sample showing how to use the ActionBar as an overlay when the video is playing in fullscreen.
- *
+ * <p>
  * The ActionBar is the only view allowed to overlay the player, so it is a useful place to put
  * custom application controls when the video is in fullscreen. The ActionBar can not change back
  * and forth between normal mode and overlay mode, so to make sure our application's content
@@ -42,11 +47,16 @@ import android.widget.FrameLayout;
  */
 @TargetApi(11)
 public class ActionBarDemoActivity extends YouTubeFailureRecoveryActivity implements
-    YouTubePlayer.OnFullscreenListener {
+        YouTubePlayer.OnFullscreenListener {
 
   private ActionBarPaddedFrameLayout viewContainer;
   private YouTubePlayerFragment playerFragment;
   private View tutorialTextView;
+  /**
+   * ATTENTION: This was auto-generated to implement the App Indexing API.
+   * See https://g.co/AppIndexing/AndroidStudio for more information.
+   */
+  private GoogleApiClient client;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -56,18 +66,21 @@ public class ActionBarDemoActivity extends YouTubeFailureRecoveryActivity implem
 
     viewContainer = (ActionBarPaddedFrameLayout) findViewById(R.id.view_container);
     playerFragment =
-        (YouTubePlayerFragment) getFragmentManager().findFragmentById(R.id.player_fragment);
+            (YouTubePlayerFragment) getFragmentManager().findFragmentById(R.id.player_fragment);
     tutorialTextView = findViewById(R.id.tutorial_text);
     playerFragment.initialize(DeveloperKey.DEVELOPER_KEY, this);
     viewContainer.setActionBar(getActionBar());
 
     // Action bar background is transparent by default.
     getActionBar().setBackgroundDrawable(new ColorDrawable(0xAA000000));
+    // ATTENTION: This was auto-generated to implement the App Indexing API.
+    // See https://g.co/AppIndexing/AndroidStudio for more information.
+    client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
   }
 
   @Override
   public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player,
-      boolean wasRestored) {
+                                      boolean wasRestored) {
     player.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CUSTOM_LAYOUT);
     player.setOnFullscreenListener(this);
 
@@ -95,6 +108,42 @@ public class ActionBarDemoActivity extends YouTubeFailureRecoveryActivity implem
       playerParams.width = 0;
       playerParams.height = WRAP_CONTENT;
     }
+  }
+
+  /**
+   * ATTENTION: This was auto-generated to implement the App Indexing API.
+   * See https://g.co/AppIndexing/AndroidStudio for more information.
+   */
+  public Action getIndexApiAction() {
+    Thing object = new Thing.Builder()
+            .setName("ActionBarDemo Page") // TODO: Define a title for the content shown.
+            // TODO: Make sure this auto-generated URL is correct.
+            .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+            .build();
+    return new Action.Builder(Action.TYPE_VIEW)
+            .setObject(object)
+            .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+            .build();
+  }
+
+  @Override
+  public void onStart() {
+    super.onStart();
+
+    // ATTENTION: This was auto-generated to implement the App Indexing API.
+    // See https://g.co/AppIndexing/AndroidStudio for more information.
+    client.connect();
+    AppIndex.AppIndexApi.start(client, getIndexApiAction());
+  }
+
+  @Override
+  public void onStop() {
+    super.onStop();
+
+    // ATTENTION: This was auto-generated to implement the App Indexing API.
+    // See https://g.co/AppIndexing/AndroidStudio for more information.
+    AppIndex.AppIndexApi.end(client, getIndexApiAction());
+    client.disconnect();
   }
 
   /**
@@ -131,10 +180,11 @@ public class ActionBarDemoActivity extends YouTubeFailureRecoveryActivity implem
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-      int topPadding =
-          paddingEnabled && actionBar != null && actionBar.isShowing() ? actionBar.getHeight() : 0;
+      int topPadding = 0;
+      if (paddingEnabled && actionBar != null && actionBar.isShowing()) {
+        topPadding = actionBar.getHeight();
+      }
       setPadding(0, topPadding, 0, 0);
-
       super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 

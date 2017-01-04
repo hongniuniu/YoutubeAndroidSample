@@ -15,8 +15,6 @@
  */
 package com.faith.ctv.ytb;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -25,7 +23,6 @@ import android.app.ListFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -33,7 +30,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.ViewPropertyAnimator;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
@@ -140,74 +136,12 @@ public final class VideoListDemo2Activity extends Activity implements OnFullscre
   }
 
   /**
-   * Sets up the layout programatically for the three different states. Portrait, landscape or
-   * fullscreen+landscape. This has to be done programmatically because we handle the orientation
-   * changes ourselves in order to get fluent fullscreen transitions, so the xml layout resources
-   * do not get reloaded.
-   */
-//  private void layout() {
-//    boolean isPortrait =
-//        getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
-//
-//    listFragment.getView().setVisibility(isFullscreen ? View.GONE : View.VISIBLE);
-//    listFragment.setLabelVisibility(isPortrait);
-//    closeButton.setVisibility(isPortrait ? View.VISIBLE : View.GONE);
-//
-//    if (isFullscreen) {
-//      videoBox.setTranslationY(0); // Reset any translation that was applied in portrait.
-//      setLayoutSize(videoFragment.getView(), MATCH_PARENT, MATCH_PARENT);
-//      setLayoutSizeAndGravity(videoBox, MATCH_PARENT, MATCH_PARENT, Gravity.TOP | Gravity.LEFT);
-//    } else if (isPortrait) {
-//      setLayoutSize(listFragment.getView(), MATCH_PARENT, MATCH_PARENT);
-//      setLayoutSize(videoFragment.getView(), MATCH_PARENT, WRAP_CONTENT);
-//      setLayoutSizeAndGravity(videoBox, MATCH_PARENT, WRAP_CONTENT, Gravity.BOTTOM);
-//    } else {
-//      videoBox.setTranslationY(0); // Reset any translation that was applied in portrait.
-//      int screenWidth = dpToPx(getResources().getConfiguration().screenWidthDp);
-//      setLayoutSize(listFragment.getView(), screenWidth / 4, MATCH_PARENT);
-//      int videoWidth = screenWidth - screenWidth / 4 - dpToPx(LANDSCAPE_VIDEO_PADDING_DP);
-//      setLayoutSize(videoFragment.getView(), videoWidth, WRAP_CONTENT);
-//      setLayoutSizeAndGravity(videoBox, videoWidth, WRAP_CONTENT,
-//          Gravity.RIGHT | Gravity.CENTER_VERTICAL);
-//    }
-//  }
-
-//  public void onClickClose(@SuppressWarnings("unused") View view) {
-//    listFragment.getListView().clearChoices();
-//    listFragment.getListView().requestLayout();
-//    videoFragment.pause();
-//    ViewPropertyAnimator animator = videoBox.animate()
-//        .translationYBy(videoBox.getHeight())
-//        .setDuration(ANIMATION_DURATION_MILLIS);
-//    runOnAnimationEnd(animator, new Runnable() {
-//      @Override
-//      public void run() {
-//        videoBox.setVisibility(View.INVISIBLE);
-//      }
-//    });
-//  }
-
-  @TargetApi(16)
-  private void runOnAnimationEnd(ViewPropertyAnimator animator, final Runnable runnable) {
-    if (Build.VERSION.SDK_INT >= 16) {
-      animator.withEndAction(runnable);
-    } else {
-      animator.setListener(new AnimatorListenerAdapter() {
-        @Override
-        public void onAnimationEnd(Animator animation) {
-          runnable.run();
-        }
-      });
-    }
-  }
-
-  /**
    * A fragment that shows a static list of videos.
    */
   public static final class VideoListFragment extends ListFragment implements AbsListView.OnScrollListener {
     private static List<VideoEntry> mList = new ArrayList<>();
     private void addTestData(){
-      mList.add(new VideoEntry("YouTube Collection", "Y_UmWdcTrrc",136 * 1000));
+      mList.add(new VideoEntry("YouTube Collection", "34WF8F2VoiI",136 * 1000));
       mList.add(new VideoEntry("GMail Tap", "1KhZKNZO8mQ",136 * 1000));
       mList.add(new VideoEntry("Chrome Multitask", "UiLSiqyDf4Y",96 * 1000));
       mList.add(new VideoEntry("Google Fiber", "re0VRK6ouwI",124 * 1000));

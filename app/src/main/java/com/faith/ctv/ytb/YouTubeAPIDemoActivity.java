@@ -42,11 +42,13 @@ import java.util.List;
  */
 public class YouTubeAPIDemoActivity extends Activity implements OnItemClickListener {
 
+  private static final String TAG = YouTubeAPIDemoActivity.class.getSimpleName();
   private List<DemoListViewItem> activities;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    Log.d(TAG,"onCreate...");
     setContentView(R.layout.demo_home);
 
     PackageInfo packageInfo = null;
@@ -97,6 +99,12 @@ public class YouTubeAPIDemoActivity extends Activity implements OnItemClickListe
     Intent intent = new Intent();
     intent.setComponent(new ComponentName(getPackageName(), clickedDemo.className));
     startActivity(intent);
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    Log.d(TAG,"onDestroy...");
   }
 
   private final class Demo implements DemoListViewItem {
