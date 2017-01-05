@@ -37,6 +37,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.faith.ctv.ytb.utils.DeviceUtil;
 import com.google.android.youtube.player.YouTubeApiServiceUtil;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -44,6 +45,7 @@ import com.google.android.youtube.player.YouTubePlayer.OnFullscreenListener;
 import com.google.android.youtube.player.YouTubePlayer.OnInitializedListener;
 import com.google.android.youtube.player.YouTubePlayer.Provider;
 import com.google.android.youtube.player.YouTubePlayerFragment;
+import com.google.android.youtube.player.YouTubePlayerView;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailLoader.ErrorReason;
 import com.google.android.youtube.player.YouTubeThumbnailView;
@@ -80,12 +82,14 @@ public final class VideoListDemo2Activity extends Activity implements OnFullscre
 //  private View closeButton;
 
   private boolean isFullscreen;
+  private static int mWidth;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     setContentView(R.layout.video_list_demo2);
+    mWidth = DeviceUtil.getDevice(this).getWidth();
 
     listFragment = (VideoListFragment) getFragmentManager().findFragmentById(R.id.list_fragment);
 //    videoFragment =
@@ -332,6 +336,11 @@ public final class VideoListDemo2Activity extends Activity implements OnFullscre
         holder.thumbnail.initialize(DeveloperKey.DEVELOPER_KEY, thumbnailListener);
         convertView.setTag(holder);
 
+        ViewGroup.LayoutParams params = convertView.getLayoutParams();
+        params.width = mWidth;
+        params.height = mWidth * 9 / 16;
+        convertView.setLayoutParams(params);
+
       } else {
         holder = (ViewHolder) convertView.getTag();
 
@@ -454,7 +463,21 @@ public final class VideoListDemo2Activity extends Activity implements OnFullscre
         videoId = arguments.getString("KEY_VIDEO_ID");
         Log.d("VideoListDemo2Activity", "YouTubePlayerFragment-->videoId = " + videoId);
       }
-      initialize(DeveloperKey.DEVELOPER_KEY, this);
+      try {
+        initialize(DeveloperKey.DEVELOPER_KEY, this);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle bundle) {
+      YouTubePlayerView view = (YouTubePlayerView) super.onCreateView(layoutInflater, viewGroup, bundle);
+      YouTubePlayerView.LayoutParams params = new YouTubePlayerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+      params.width = mWidth;
+      params.height = mWidth * 9 / 16;
+      view.setLayoutParams(params);
+      return view;
     }
 
     @Override

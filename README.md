@@ -52,6 +52,10 @@ mAct.getFragmentManager().beginTransaction().replace(layout.getId(), fragment).c
 ```
 这种方式添加也行，比如视频列表就是采取这个方式，保证播放器永远只存在一个，节省内存的开销；不用的时候需要释放播放器资源
 
+##### 坑2：如何编写视频列表，点击列表的item在当前行上直接播放？
+* 请参考项目中的[VideoListDemo2Activity](https://github.com/hongniuniu/YoutubeAndroidSample/blob/master/app/src/main/java/com/faith/ctv/ytb/VideoListDemo2Activity.java)文件；
+
+##### 坑3：为什么有时候视频播着几秒后自动停止了？
 
 
 ###关于我
