@@ -39,6 +39,19 @@
 <img src="screenshots/guide4.png" width="24.2%" />
 
 
+### 针对以上的坑做的填坑措施：
+
+##### 坑1：在Fragment中的如何使用YouTubePlayerView？
+* SDK是不支持在fragment中直接使用YouTubePlayerView的，因为他们自己单独封装了YouTubePlayerFragment，将YouTubePlayerView直接
+写在该类里了,所以说如果有在项目中要求在Fragment中使用播放器，可以直接继承YouTubePlayerFragment或者动态添加单独的YouTubePlayerFragment，
+通过：
+```
+mAct.getFragmentManager().beginTransaction().replace(layout.getId(), fragment).commitAllowingStateLoss();
+```
+这种方式添加也行，比如视频列表就是采取这个方式，保证播放器永远只存在一个，节省内存的开销；不用的使用需要释放播放器资源
+
+
+
 ###关于我
 
 * **QQ:** 907167515
