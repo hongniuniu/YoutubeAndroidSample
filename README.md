@@ -56,7 +56,13 @@ mAct.getFragmentManager().beginTransaction().replace(layout.getId(), fragment).c
 * 请参考项目中的[VideoListDemo2Activity](https://github.com/hongniuniu/YoutubeAndroidSample/blob/master/app/src/main/java/com/faith/ctv/ytb/VideoListDemo2Activity.java)文件；
 
 ##### 坑3：为什么有时候视频播着几秒后自动停止了？
+* 这是因为在播放器的上面还有其他控件盖在上面，比如一条分割线等，具体原因就是播放器未完全呈现出来；错误信息如下：
+```
+YouTube video playback stopped due to unauthorized overlay on top of player
+```
+解决办法自然就是移除对应的覆盖物就行了;
 
+##### 坑4：为什么有时候视频播着就闪退了？
 
 ###关于我
 
