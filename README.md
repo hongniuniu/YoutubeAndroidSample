@@ -7,7 +7,6 @@
 谢谢;
 ```
 
-
 > **情景一：手机上安装并启用了YouTube：**
 
 * **坑1：在Fragment中的如何使用YouTubePlayerView？**
@@ -110,7 +109,7 @@ startActivityForResult(intent, REQ_START_STANDALONE_PLAYER);
 
 ##### 坑8：如何让播放视频前先播放广告？
 这是一个技巧性的问题，一般人我不告诉他的，我也是摸索了好久才突然发现的；这么做的目的是因为，我的项目中需要测试广告播放结束后继续视频播放的UI呈现问题；好了不啰嗦了，直接上技巧：
-步骤：先断开vpn进入视频列表，点击播放，提示：请检查你的网络连线，再连接vpn，点击播放，此时播放应该有广告显示，经多次测试得出的结果；
+* 步骤：先断开vpn进入视频列表，点击播放，提示：请检查你的网络连线，再连接vpn，点击播放，此时播放应该有广告显示，经多次测试得出的结果；
 
 ##### 坑9：如何播放YouTube视频？
 扯了这么多，终于轮到h5视频闪亮登场了；
@@ -127,13 +126,12 @@ player.setSize(window.innerWidth, window.innerHeight);
 该问题就牵扯到前端和客户端的交互了，具体实现思路就是在h5的播放状态函数中分发事件给客户端，代码如下：
 ```
 //当播放器的状态改变时，这个函数调用这个函数
-            var done = false;
-            function onPlayerStateChange(event) {
-                console.log('js调用：播放状态...data = ' + event.data + '-->errorCode = ' + errorCode);
-                window.location.href = 'wabridge://onPlayerStateChange?data=' + event.data + "&errorCode=" + errorCode;
-            }
+var done = false;
+function onPlayerStateChange(event) {
+    console.log('js调用：播放状态...data = ' + event.data + '-->errorCode = ' + errorCode);
+    window.location.href = 'wabridge://onPlayerStateChange?data=' + event.data + "&errorCode=" + errorCode;
+}
 ```
-
 
 ### 针对YouTube的sdk和h5播放器的功能可以参照如下链接，进行知识点梳理和查阅，也欢迎大家提issue：
 * Android的API介绍：
