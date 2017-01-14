@@ -136,9 +136,12 @@ player.setSize(window.innerWidth, window.innerHeight);
 
 
 ### 针对YouTube的sdk和h5播放器的功能可以参照如下链接，进行知识点梳理和查阅，也欢迎大家提issue：
-* SDK的API文档：[https://developers.google.com/youtube/android/player/reference/com/google/android/youtube/player/package-summary](https://developers.google.com/youtube/android/player/reference/com/google/android/youtube/player/package-summary)
-* YouTube的Android问题板块：[http://stackoverflow.com/questions/tagged/android-youtube-api](http://stackoverflow.com/questions/tagged/android-youtube-api)
-* H5的API介绍：[https://developers.google.cn/youtube/player_parameters](https://developers.google.cn/youtube/player_parameters)
+* Android的API介绍：
+[https://developers.google.com/youtube/android/player/reference/com/google/android/youtube/player/package-summary](https://developers.google.com/youtube/android/player/reference/com/google/android/youtube/player/package-summary)
+* YouTube的Android问题板块：
+[http://stackoverflow.com/questions/tagged/android-youtube-api](http://stackoverflow.com/questions/tagged/android-youtube-api)
+* H5的API介绍：
+[https://developers.google.cn/youtube/player_parameters](https://developers.google.cn/youtube/player_parameters)
 
 
 ### 关于我
